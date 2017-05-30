@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:insert name="metada" />
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Sys Loja</title>
+	<h:outputStylesheet library="css" name="estilos.css" />
+</h:head>
+<h:body>
+	<!-- Mensagem geral -->
+	<p:growl id="msgGeral" sticky="true" />
+	<p:layout fullPage="true">
+		<p:layoutUnit header="Sistema para o gerenciamento da Loja"
+			position="north" resizable="false" closable="false"
+			collapsible="false">
+		</p:layoutUnit>
+
+		<!-- <p:layoutUnit header="Desenvolvido por GoldenSoft Solution"
+			position="south" resizable="false" closable="false"
+			collapsible="false">
+		</p:layoutUnit>-->
+
+		<p:layoutUnit position="west" size="250" resizable="false"
+			closable="false" collapsible="false">
+			<h:form id="formMenuPrincipal">
+				<p:panelMenu id="pnlMenuPrincipal">
+					<p:submenu label="Arquivo">
+						<p:menuitem value="Autenticação"
+							outcome="/pages/autenticacao.xhtml"
+							rendered="#{autenticacaoBean.funcionarioLogado.funcao == null}" />
+						<p:menuitem value="Principal" outcome="/pages/principal.xhtml"
+							rendered="#{autenticacaoBean.funcionarioLogado.funcao != null}" />
+						<p:menuitem value="Sair" action="#{autenticacaoBean.sair}"
+							rendered="#{autenticacaoBean.funcionarioLogado.funcao != null}" />
+					</p:submenu>
+					<p:submenu label="Cadastros"
+						rendered="#{autenticacaoBean.funcionarioLogado.funcao != null and autenticacaoBean.funcionarioLogado.funcao != 'Balconista'}">
+						<p:menuitem value="Endereço"
+							outcome="/pages/endereco/enderecoPesquisa.xhtml" />
+						<p:menuitem value="Dados Pessoais"
+							outcome="/pages/cliente/pessoaPesquisa.xhtml" />
+						<p:menuitem value="Dados Pessoa Fisica"
+							outcome="/pages/pfisica/pFisicaPesquisa.xhtml" />
+						<p:menuitem value="Dados Pessoa Juridica"
+							outcome="/pages/empresa/empresaPesquisa.xhtml" />
+						<p:menuitem value="Funcionário"
+							outcome="/pages/funcionario/funcionarioPesquisa.xhtml" />
+						<p:menuitem value="Fornecedor"
+							outcome="/pages/empresa/fornecedorPesquisa.xhtml" />
+						<p:menuitem value="Produto"
+							outcome="/pages/produto/produtoPesquisa.xhtml" />
+					</p:submenu>
+					<p:submenu label="Vendas"
+						rendered="#{autenticacaoBean.funcionarioLogado.funcao != null}">
+						<p:menuitem value="Novo"
+							outcome="/pages/venda/vendaCadastro.xhtml" />
+					</p:submenu>
+					<p:submenu label="Relatórios"
+						rendered="#{autenticacaoBean.funcionarioLogado.funcao != null and autenticacaoBean.funcionarioLogado.funcao != 'Balconista'}"></p:submenu>
+					<p:submenu label="Sistema"
+						rendered="#{autenticacaoBean.funcionarioLogado.funcao != null and autenticacaoBean.funcionarioLogado.funcao != 'Balconista'}">
+						<p:menuitem value="Minha Empresa"
+							outcome="/pages/minhaEmpresa/estabelecimentoPesquisa.xhtml" />												
+					</p:submenu>
+				</p:panelMenu>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center" resizable="false" closable="false"
+			collapsible="false">
+			<ui:insert name="conteudo" />
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>

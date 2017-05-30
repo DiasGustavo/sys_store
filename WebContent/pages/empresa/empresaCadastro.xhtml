@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="pesacao" value="#{pessoaJuridicaBean.acao}" />
+			<f:viewParam name="pessoaid" value="#{pessoaJuridicaBean.codigo}" />
+			<f:event listener="#{pessoaJuridicaBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="formPessoaDados">
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Pessoa" />
+				</f:facet>
+			</p:toolbar>
+			<h:panelGrid id="pPessoaDados" columns="2">
+				<p:outputLabel value="CNPJ:" />
+				<p:inputMask mask="99.999.999/9999-99" size="20"
+					value="#{pessoaJuridicaBean.pjuridicaCadastro.cnpj}"
+					readonly="#{pessoaJuridicaBean.acao == 'Excluir'}">
+					<f:validateBean />
+				</p:inputMask>
+
+				<p:outputLabel value="Razão Social:" />
+				<p:inputText maxlength="50" size="30"
+					value="#{pessoaJuridicaBean.pjuridicaCadastro.razaoSocial}"
+					readonly="#{pessoaJuridicaBean.acao == 'Excluir'}">
+					<f:validateBean />
+				</p:inputText>
+				
+				<p:outputLabel value="Nome Fantasia:" />
+				<p:inputText maxlength="50" size="30"
+					value="#{pessoaJuridicaBean.pjuridicaCadastro.nomeFantazia}"
+					readonly="#{pessoaJuridicaBean.acao == 'Excluir'}">
+					<f:validateBean />
+				</p:inputText>
+
+				<p:outputLabel value="Pessoa:" />
+				<p:selectOneMenu
+					value="#{pessoaJuridicaBean.pjuridicaCadastro.pessoa}"
+					converter="pessoaConverter" filter="true" filterMatchMode="startsWith">
+					<f:validateBean>
+						<f:selectItem itemValue="" itemLabel="Selecione uma Pessoa" />
+						<f:selectItems value="#{pessoaJuridicaBean.listaPessoa}"
+							var="pessoa" itemValue="#{pessoa}" itemLabel="#{pessoa.nome}" />
+					</f:validateBean>
+				</p:selectOneMenu>
+			</h:panelGrid>
+
+			<h:panelGrid columns="5">
+				<p:commandButton value="Novo"
+					actionListener="#{pessoaJuridicaBean.novo}"
+					update=":formPessoaDados:pPessoaDados"
+					rendered="#{pessoaJuridicaBean.acao == 'Novo'}" />
+
+				<p:commandButton value="Salvar"
+					actionListener="#{pessoaJuridicaBean.salvar}"
+					update=":msgGeral :formPessoaDados:pPessoaDados"
+					rendered="#{pessoaJuridicaBean.acao == 'Novo'}" />
+
+				<p:commandButton value="Editar"
+					actionListener="#{pessoaJuridicaBean.editar}" update=":msgGeral"
+					rendered="#{pessoaJuridicaBean.acao == 'Editar'}" />
+
+				<p:commandButton value="Excluir"
+					actionListener="#{pesssoaJuridicaBean.excluir}" update=":msgGeral"
+					rendered="#{pessoaJuridicaBean.acao == 'Excluir'}" />
+
+				<p:button value="Voltar"
+					outcome="/pages/empresa/empresaPesquisa.xhtml?faces-redirect=true" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

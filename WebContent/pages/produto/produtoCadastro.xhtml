@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="proacao" value="#{produtoBean.acao}" />
+			<f:viewParam name="proid" value="#{produtoBean.codigo}" />
+			<f:event listener="#{produtoBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="formProdutoDados">
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Produto" />
+				</f:facet>
+			</p:toolbar>
+			<h:panelGrid id="pProdutoDados" columns="2">
+				<p:outputLabel value="Nome:" />
+				<p:inputText maxlength="50" size="30"
+					value="#{produtoBean.produtoCadastro.nome}"
+					readonly="#{produtoBean.acao == 'Excluir'}">
+					<f:validateBean />
+				</p:inputText>
+
+				<p:outputLabel value="Preço Custo:" />
+				<p:inputText size="20"
+					value="#{produtoBean.produtoCadastro.precoCusto}"
+					readonly="#{produtoBean.acao == 'Excluir'}"
+					converterMessage="Informe um valor válido para o preço de custo">
+					<f:convertNumber />
+					<f:validateBean />
+				</p:inputText>
+
+				<p:outputLabel value="Preço Venda:" />
+				<p:inputText size="20"
+					value="#{produtoBean.produtoCadastro.precoVenda}"
+					readonly="#{produtoBean.acao == 'Excluir'}"
+					converterMessage="Informe um valor válido para o preço de venda">
+					<f:convertNumber/>
+					<f:validateBean />
+				</p:inputText>
+
+				<p:outputLabel value="Quantidade:" />
+				<p:inputText size="20"
+					value="#{produtoBean.produtoCadastro.quantidade}"
+					readonly="#{produtoBean.acao == 'Excluir'}">
+					<f:validateBean />
+				</p:inputText>
+
+				<p:outputLabel value="Validade:" />
+				<p:inputText size="20"
+					value="#{produtoBean.produtoCadastro.validade}"
+					readonly="#{produtoBean.acao == 'Excluir'}">
+					<f:validateBean />
+				</p:inputText>
+
+				<p:outputLabel value="Valor de reposição:" />
+				<p:inputText size="20"
+					value="#{produtoBean.produtoCadastro.valorReposicao}"
+					readonly="#{produtoBean.acao == 'Excluir'}">
+					<f:validateBean />
+				</p:inputText>
+
+				<p:outputLabel value="Código de Barra:" />
+				<p:inputText size="20"
+					value="#{produtoBean.produtoCadastro.codigoBarra}"
+					readonly="#{produtoBean.acao == 'Excluir'}">
+					<f:validateBean />
+				</p:inputText>
+
+			</h:panelGrid>
+
+			<h:panelGrid columns="5">
+				<p:commandButton value="Novo" actionListener="#{produtoBean.novo}"
+					update=":formProdutoDados:pProdutoDados"
+					rendered="#{produtoBean.acao == 'Novo'}" />
+
+				<p:commandButton value="Salvar"
+					actionListener="#{produtoBean.salvar}"
+					update=":msgGeral :formProdutoDados:pProdutoDados"
+					rendered="#{produtoBean.acao == 'Novo'}" />
+
+				<p:commandButton value="Editar"
+					actionListener="#{produtoBean.editar}" update=":msgGeral"
+					rendered="#{produtoBean.acao == 'Editar'}" />
+
+				<p:commandButton value="Excluir"
+					actionListener="#{produtoBean.excluir}" update=":msgGeral"
+					rendered="#{produtoBean.acao == 'Excluir'}" />
+
+				<p:button value="Voltar"
+					outcome="/pages/produto/produtoPesquisa.xhtml?faces-redirect=true" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+
+</html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="foracao" value="#{fornecedorBean.acao}" />
+			<f:viewParam name="forid" value="#{fornecedorBean.codigo}" />
+			<f:event listener="#{fornecedorBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="formFornecedorDados">
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Fornecedor" />
+				</f:facet>
+			</p:toolbar>
+			<h:panelGrid id="pFornecedorDados" columns="2">
+				
+				<p:outputLabel value="Ins. Municiapl:" />
+				<p:inputText maxlength="45" size="30"
+					value="#{fornecedorBean.fornecedorCadastro.insMunicipal}"
+					readonly="#{fornecedorBean.acao == 'Excluir'}">
+					<f:validateBean />
+				</p:inputText>
+				
+				<p:outputLabel value="Ins. Estadual:" />
+				<p:inputText maxlength="45" size="30"
+					value="#{fornecedorBean.fornecedorCadastro.insEstadual}"
+					readonly="#{fornecedorBean.acao == 'Excluir'}">
+					<f:validateBean />
+				</p:inputText>
+
+				<p:outputLabel value="Pessoa Jurídica:" />
+				<p:selectOneMenu
+					value="#{fornecedorBean.fornecedorCadastro.pj}"
+					converter="pessoaJuridicaConverter" filter="true" filterMatchMode="startsWith">
+					<f:validateBean>
+						<f:selectItem itemValue="" itemLabel="Selecione uma Pessoa" />
+						<f:selectItems value="#{fornecedorBean.listaPJuridicas}"
+							var="pessoa" itemValue="#{pessoa}" itemLabel="#{pessoa.pessoa.nome}" />
+					</f:validateBean>
+				</p:selectOneMenu>
+			</h:panelGrid>
+
+			<h:panelGrid columns="5">
+				<p:commandButton value="Novo"
+					actionListener="#{fornecedorBean.novo}"
+					update=":formFornecedorDados:pFornecedorDados"
+					rendered="#{fornecedorBean.acao == 'Novo'}" />
+
+				<p:commandButton value="Salvar"
+					actionListener="#{fornecedorBean.salvar}"
+					update=":msgGeral :formFornecedorDados:pFornecedorDados"
+					rendered="#{fornecedorBean.acao == 'Novo'}" />
+
+				<p:commandButton value="Editar"
+					actionListener="#{fornecedorBean.editar}" update=":msgGeral"
+					rendered="#{fornecedorBean.acao == 'Editar'}" />
+
+				<p:commandButton value="Excluir"
+					actionListener="#{fornecedorBean.excluir}" update=":msgGeral"
+					rendered="#{fornecedorBean.acao == 'Excluir'}" />
+
+				<p:button value="Voltar"
+					outcome="/pages/empresa/fornecedorPesquisa.xhtml?faces-redirect=true" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+	</ui:composition>
+
+</html>

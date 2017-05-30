@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metada">
+		<f:metadata>
+			<f:event listener="#{funcionarioBean.listar}" type="preRenderView"></f:event>
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="formPesquisa">
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Funcionário" />
+				</f:facet>
+			</p:toolbar>
+			
+			<p:dataTable emptyMessage="Nenhum registro encontrado."
+				value="#{funcionarioBean.listaFuncionarios}"
+				filteredValue="#{funcionarioBean.listaFuncionariosFiltrados}" var="funcionario"
+				rows="10" paginator="true" id="tabelaDados">
+				
+				<f:facet name="footer">
+					<p:button value="Novo"
+					outcome="/pages/funcionario/funcionarioCadastro.xhtml?faces-redirect=true">
+					<f:param name="funacao" value="Novo"/>
+				</p:button>
+				</f:facet>
+				
+				<p:column headerText="Id">
+					<h:outputText value="#{funcionario.id}"/>
+				</p:column>
+
+				<p:column headerText="Login" filterBy="#{funcionario.login}"
+					sortBy="#{funcionario.login}">
+					<h:outputText value="#{funcionario.login}"/>
+				</p:column>
+
+				<p:column headerText="Função">
+					<h:outputText value="#{funcionario.funcao}"/>
+				</p:column>
+				
+				<p:column headerText="Estabelecimento">
+					<h:outputText value="#{funcionario.estabelecimento.pj.pessoa.nome}"/>
+				</p:column>
+
+				<p:column headerText="Opções">
+					<p:button value="Editar"
+						outcome="/pages/funcionario/funcionarioCadastro.xhtml?faces-redirect=true">
+						<f:param name="funid" value="#{funcionario.id}" />
+						<f:param name="funacao" value="Editar"/>
+					</p:button>
+
+					<p:button value="Excluir"
+						outcome="/pages/funcionario/funcionarioCadastro.xhtml?faces-redirect=true">
+						<f:param name="funid" value="#{funcionario.id}" />
+						<f:param name="funacao" value="Excluir"/>
+					</p:button>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

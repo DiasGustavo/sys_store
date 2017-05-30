@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metada">
+		<f:metadata>
+			<f:event listener="#{enderecoBean.listar}" type="preRenderView"></f:event>
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="formPesquisa">
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Endereço" />
+				</f:facet>
+			</p:toolbar>
+			
+			<p:dataTable emptyMessage="Nenhum registro encontrado."
+				value="#{enderecoBean.listaEnderecos}"
+				filteredValue="#{enderecoBean.listaEnderecosFiltrados}" var="endereco"
+				rows="10" paginator="true" id="tabelaDados">
+				<f:facet name="footer">
+					<p:button value="Novo"
+					outcome="/pages/endereco/enderecoCadastro.xhtml?faces-redirect=true">
+					<f:param name="endacao" value="Novo"/>
+				</p:button>
+				</f:facet>
+
+				<p:column headerText="Id">
+					<h:outputText value="#{endereco.id}" />
+				</p:column>
+
+				<p:column headerText="Logradouro" filterBy="#{endereco.logradouro}"
+					sortBy="#{endereco.logradouro}">
+					<h:outputText value="#{endereco.logradouro}" />
+				</p:column>
+
+				<p:column headerText="Bairro" filterBy="#{endereco.bairro}"
+					sortBy="#{endereco.bairro}">
+					<h:outputText value="#{endereco.bairro}" />
+				</p:column>
+
+				<p:column headerText="Cidade" filterBy="#{endereco.cidade}"
+					sortBy="#{endereco.cidade}">
+					<h:outputText value="#{endereco.cidade}" />
+				</p:column>
+
+				<p:column headerText="Estado" filterBy="#{endereco.estado}"
+					sortBy="#{endereco.estado}">
+					<h:outputText value="#{endereco.estado}" />
+				</p:column>
+
+				<p:column headerText="Opções">
+					<p:button value="Editar"
+						outcome="/pages/endereco/enderecoCadastro.xhtml?faces-redirect=true">
+						<f:param name="endid" value="#{endereco.id}" />
+						<f:param name="endacao" value="Editar"/>
+					</p:button>
+
+					<p:button value="Excluir"
+						outcome="/pages/endereco/enderecoCadastro.xhtml?faces-redirect=true">
+						<f:param name="endid" value="#{endereco.id}" />
+						<f:param name="endacao" value="Excluir"/>
+					</p:button>
+				</p:column>
+				
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>
